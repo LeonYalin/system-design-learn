@@ -1,2 +1,2 @@
 # system-design-learn
-This project helps with learning system design
+This project helps in learning the System Design
