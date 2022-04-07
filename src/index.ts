@@ -1,5 +1,5 @@
-import gettingStartedWithSystemDesign from "./gettingStartedWithSystemDesign";
+import introduction from "./introduction";
 
 (function main() {
-  gettingStartedWithSystemDesign();
+  introduction();
 }());
