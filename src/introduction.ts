@@ -98,9 +98,33 @@ function caching() {
     `);
 }
 
+function queues() {
+  logToHTML(`
+    Queues:
+
+    + Queues are async, which enables fast parallel processing
+    + Acts as a buffer, and persistence in case of crash
+    - Adds complexity, hard error handling (no response)
+
+    Messaging models:
+    - Message Queue (Action, serve the result to one consumer, can arrive out of order)
+    - Publish/Subscribe (server the result to multiple consumers, always in order)
+    - Most popular libraries are RabbitMQ and Kafka
+    - RabbitMQ:
+        + Message queue to exactly 1 customer (but can work as a pub/sub as well)
+        + Reliability through acknowledgements
+        + Concurrency through channels
+    - Kafka:
+        + Best used as a pub/sub
+        + Has very high throughput, can process 100k+ events per second
+        + Slow customers don't affect queue performance 
+    `);
+}
+
 export default function introduction() {
   delimeterMsg('INTRODUCTION');
   logF(diagramsAndEstimations);
   logF(networks);
   logF(caching);
+  logF(queues);
 }
