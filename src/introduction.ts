@@ -41,7 +41,7 @@ function networks() {
 
     Load balancer
     - Acts as a reverse proxy, makes system horisontally scalable and handles servers falls (resilent)
-    - Strategies: round robin, lease connections ect..
+    - Strategies: round robin, least connections ect..
     - Types: Layer 4 (has access to TCP/UDP, IP, PORT) and Layer 7 (has access to Layer 4 stuff + headers, cookies, payload).
 
     CDN
@@ -53,8 +53,54 @@ function networks() {
     `);
 }
 
+function caching() {
+  logToHTML(`
+    Caching:
+
+    Caching main characteristics
+    + Improve read performance (aka Latency)
+    + Reduce the load (aka Throughput)
+    - Increases complexity
+    - Consumes resourses
+
+    Caching strategies
+    - Cache aside
+        Client talks to the app. App checks the cache and serves data. In data not in cache, app goes to DB and updates the cache.
+        + Cache only what's needed
+        - Cache misses are expensive(goes to the DB)
+        - Data staleness (expires TTL)
+        - implementation complexity (one API for cache and another for the DB)
+    - Read Through
+        Client talks to the app. App interacts with the cache only, not directly with the DB. Cache itself updates the DB periodically.
+        The database reads the data from cache.
+        + Cache only what's needed
+        + Easy to work with (you work only with the cache).
+        - Data staleness
+        - Reliability (if the cache goes down, data is lost).
+    - Write Through
+        Is is like Read Through, but the cache writes to the DB
+    - Write Behind
+        Write begind is similar to Write Through except the writes are done in bulk, using a buffer
+        + Reduces load to the DB
+        + Handles DB temporal failures
+        - If the cache goes down, the app goes down
+
+    Cache Eviction policies
+    - LRU: Least Recently Used (Based on linked list. First in, first out).
+    - LFU: Least Frequently Used (Based on a usages hashmap with key:count).
+
+    Redis as a cache system
+    - in-memory key-value store, limited by RAM
+    + Supports TTL policy
+    + Supports persistance to disk (every second)
+    - No support for JSON or nested structures
+    - Can loose data
+    `);
+}
+
 export default function introduction() {
   delimeterMsg('INTRODUCTION');
   logF(diagramsAndEstimations);
   logF(networks);
+  logF(caching);
 }
