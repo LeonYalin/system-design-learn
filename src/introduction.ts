@@ -244,6 +244,66 @@ function concurrency() {
     `);
 }
 
+function databases() {
+  logToHTML(`
+    Databases:
+
+    Indexes
+    - Indexes are a data structure that allows fast search for data based on the index type.
+    - Usually build by selecting a column which will be a basis for the search
+    - Indexes are built using a B-Tree (not HashMap! Because of range searches e.g. price between 25 and 30)
+    -B-Tree is a variation of a Binary Tree where a node can have more than 2 leafs, to reduce tree levels
+
+    Sharding
+    - Database sharding is splitting one big database into several smaller ones, on different machines
+    + Helps gaining space, CPU and memory, horisontal scaling
+    - Adds complexity, expensive cross-shard operations
+    - Sharding strategies
+        Tenant-based (or Geo-Based): split by regions, e.g. US, CA, IL, FR ect...
+        + Easy to understand, easy to scale
+        - Uneven destribution, need to deal with entities changing countries
+        Hash-based sharding: split by hash, e.g. hash(id)%4 -> 4 shards sorted by a-z hashed
+        + Even desreibution
+        - Adding new shards is difficult, hard to store relational data (multi-shard queries)
+        - To overcome the multi-shard problem, a 'locator' service can be used (which will help locating the data)
+        - The locator then becomes single point of failure, and has to be very reliable
+    - Re-sharding is very expensive. To solve this problem, we can use 'Consistent Hashing'
+    - Consistent Hashing is based on range, e.g. 0-31, 32-64 ect.. so data will move less when adding a new shard
+    - consistent Sharding can be used on Sharded databases, Caches, CDNs
+
+    Partitioing
+    - Partitioning is like sharding, but for tables. It break one big tabke into smaller ones
+    + Smaller files (faster lookup), smaller indexes, dropping pertition is fast
+    - Adds complexity, expensive cross-partition operations, harder to maintain uniqueness (every table will have its primary keys)
+    - Partitioning strategies
+        List of values (category), e.g. places orders, in-progress orders, completed orders
+        + smaller tables, faster queries
+        - uneven destribution, need to move data between tables e.g. in-progress -> completed
+        Range of dates, e.g. 07/2020, 08/2020 ect...
+        + smaller tables, faster queries, deleting data is fast
+        - uneven distribution
+        Hash of a key (sameas with sharding)
+        + even distribution
+        - re-partitioning is hard, range queries is hard
+
+    CAP Theorem (Consistency, Availability, Partition tolerance)
+    - Mostly about NoSQL, mostly about writes.
+    - "pick two" is the wrong explanation. When network partition happens, we cannot control it.
+    - We can only choose between Consistency and Availability.
+        If we choose consistency, the system will fail all attemps to assign different values to same keys on different shards
+        If we choose availability, the system will let all attemps.
+    - After network is back to normal, the system will choose how to resolve conflicts.
+    - Available strategies are Mejority-based or Timestamp-based.
+
+    ACID transations (Atomicity Consistency Isolation Durability)
+    - 'Atomicity'. The transacion is atomic, inside it everything is happening or rollbacked, together
+    - 'Consistency'. When trying to commit something, it shoud always pass all the validations, e.g. uniqueness.
+    - 'Isolation'. Different transactions are isolated from each other and can't access same data in the same time.
+    - 'Durability'. Once a transaction is commit, it is stored to disk and the data cannot be corrupted, deleted ect..
+    Tradeoffs: CPU, memory conumption, IO, disk.
+    `);
+}
+
 export default function introduction() {
   delimeterMsg('INTRODUCTION');
   logF(diagramsAndEstimations);
@@ -252,4 +312,5 @@ export default function introduction() {
   logF(queues);
   logF(protocols);
   logF(concurrency);
+  logF(databases);
 }
