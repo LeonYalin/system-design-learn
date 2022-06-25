@@ -214,6 +214,36 @@ function protocols() {
     `);
 }
 
+function concurrency() {
+  logToHTML(`
+    Concurrency:
+
+    Concurrency vs Parallelism
+    - Parallelism is doing more that one thing at a same time
+    - Concurrency is providing an illution of doing more that one thing at a same time
+    - If one person doing multiple things while switching betweem them it is concurrency, it two, it is parallelism
+
+    Processes
+    - Programs can have one process at whole system (Java) or one process per CPU (NodeJS).
+    - Interprocess comminication:
+         File: share data in a file (or in-memory mapped file)
+         Signal: for example "CTRL+C" or "kill -9 818" to Terminal -> node(SIGKILL). Signal is a number, limited
+         Pipe: for example "ls | grep hello" IO exchange between processes, two-way communication
+         Socket: two-way connection similar to the external sockets calls (e.g. WebSockets) but on the same machine
+    - Can share memory
+    - Can pass messages
+
+    Threads
+    - Threads are places where we put tasks to execute.
+    - They can have different purposes: Code execution thread, UI thread, Garbage Collection Thread ect..
+    - Using the code, we can create custom threads that will do parralel tasks
+    - Process has heap and Thread has stack
+    - Creating a thread is costly, consumes memory, heap (shared memory), locks, CPU time, number of threads is limited.
+    - In cases we have many concurrent connections it is better to use Concurrency and not Threads
+    _ Thread pools: assigns tasks to threads, orders, limits and manages threads execution. Has task queue.
+    `);
+}
+
 export default function introduction() {
   delimeterMsg('INTRODUCTION');
   logF(diagramsAndEstimations);
@@ -221,4 +251,5 @@ export default function introduction() {
   logF(caching);
   logF(queues);
   logF(protocols);
+  logF(concurrency);
 }
