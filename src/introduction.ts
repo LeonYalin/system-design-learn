@@ -304,6 +304,52 @@ function databases() {
     `);
 }
 
+function sessionManagement() {
+  logToHTML(`
+    Session Management:
+
+    - In order to store and manage a user session, e.g. a shopping card we can use cookies
+    - They are lightweigth, but have limited in number and space.
+    - We can use one session cookie to store user data. This is good but has problems with multiple server instances
+    - Using "Sticky Session" approach will help. It will choose the sme load balanced server by the same id.
+    = Instead of cookies, we can write the data into a key-value store, e.g. Redis. This adds complexity.
+    `);
+}
+function windowsVsLinux() {
+  logToHTML(`
+    Windows vs Linux:
+
+    - Linux is Free and Open-Source. and developed by community. It can forked and modified. Windows has licence and cannot be modified.
+    - Linux is secure. Any software will not run unless given a permission by a superuser.
+    - Linux is stable. It doesn't require reboots or cache cleanups.
+    - Linux can be booted from any disc. Windows can be booted only from main disk.
+    `);
+}
+
+function cloudDeployments() {
+  logToHTML(`
+    Cloud deployment:
+
+    Cloud computing service features:
+    - Broad Nertwork Access: service should be available accross the network
+    - Self Service: users should do everything without have to conduct with administrators
+    - Measured Service: users pay just for what they use
+    - Shared Resources: share resources woth other perople
+    - Elastic: scale up and down if needed
+
+    Cloud Deployment models
+    - Private Cloud: open for use by a single user/organization
+    - Public Cloud: open for use by the public users (YouTube, AWS)
+    - Community Cloud: a cloud with some specialization (for specific comminities). e.g. Payment system cloud
+    - Hybrid Cloud: the composition of two or more distinct cloud infrastructires, e.g. AWS
+
+    Cloud service models
+    - SaaS: Software as a service. Cloud manages: iaas + paas + sofware, data. Example: Gmail, Office365 ect.
+    - Paas: Platform as a service. Cloud manages: iaas + operating system, runtime. Example: Heroku, AWS Lambda
+    - Iaas: Infrastructure as a service. Cloud manages: physical location, servers, storage, networks, hypervisor. Example: DigitalOcean, AWS
+    `);
+}
+
 export default function introduction() {
   delimeterMsg('INTRODUCTION');
   logF(diagramsAndEstimations);
@@ -313,4 +359,7 @@ export default function introduction() {
   logF(protocols);
   logF(concurrency);
   logF(databases);
+  logF(sessionManagement);
+  logF(windowsVsLinux);
+  logF(cloudDeployments);
 }
