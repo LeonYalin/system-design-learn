@@ -1,5 +1,7 @@
-import introduction from "./introduction";
+import designQuestions from "./design-questions";
+import systemTopics from "./system-topics";
 
 (function main() {
-  introduction();
+  systemTopics();
+  designQuestions();
 }());

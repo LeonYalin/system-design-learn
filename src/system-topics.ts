@@ -374,7 +374,7 @@ function sqlVsNoSql() {
     `);
 }
 
-export default function introduction() {
+export default function systemTopics() {
   delimeterMsg('INTRODUCTION');
   logF(diagramsAndEstimations);
   logF(networks);
