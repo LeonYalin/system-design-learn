@@ -23,15 +23,15 @@ function diagramsAndEstimations() {
     - Throughput
       Type                | Reads per second   | Writes per second
       RDBMS                 10000                5000
+      NoSQL                 20000                10000
       Distributed Cache     100000               100000
       Message Queue         100000               100000
-      NoSQL                 20000                10000
 
     - Capacity
       Type                 | Maximum effective capacity
       RDBMS                  3TB
-      Destributed Cache      16GB - 128GB
       NoSQL                  Depends
+      Destributed Cache      16GB - 128GB
     `);
 }
 
@@ -95,8 +95,8 @@ function caching() {
     - in-memory key-value store, limited by RAM
     + Supports TTL policy
     + Supports persistance to disk (every second)
-    - No support for JSON or nested structures
-    - Can loose data
+    - No support for JSON or nested structures (without plugins)
+    - Can lose data
     `);
 }
 
@@ -220,8 +220,8 @@ function concurrency() {
 
     Concurrency vs Parallelism
     - Parallelism is doing more that one thing at a same time
-    - Concurrency is providing an illution of doing more that one thing at a same time
-    - If one person doing multiple things while switching betweem them it is concurrency, it two, it is parallelism
+    - Concurrency is providing an illusion of doing more that one thing at a same time
+    - If one person doing multiple things while switching betweem them it is concurrency, if two, it is parallelism
 
     Processes
     - Programs can have one process at whole system (Java) or one process per CPU (NodeJS).
@@ -271,8 +271,8 @@ function databases() {
     - Consistent Hashing is based on range, e.g. 0-31, 32-64 ect.. so data will move less when adding a new shard
     - consistent Sharding can be used on Sharded databases, Caches, CDNs
 
-    Partitioing
-    - Partitioning is like sharding, but for tables. It break one big tabke into smaller ones
+    Partitioning
+    - Partitioning is like sharding, but for tables. It breaks one big table into smaller ones
     + Smaller files (faster lookup), smaller indexes, dropping pertition is fast
     - Adds complexity, expensive cross-partition operations, harder to maintain uniqueness (every table will have its primary keys)
     - Partitioning strategies
@@ -293,7 +293,7 @@ function databases() {
         If we choose consistency, the system will fail all attemps to assign different values to same keys on different shards
         If we choose availability, the system will let all attemps.
     - After network is back to normal, the system will choose how to resolve conflicts.
-    - Available strategies are Mejority-based or Timestamp-based.
+    - Available strategies are Majority-based or Timestamp-based.
 
     ACID transations (Atomicity Consistency Isolation Durability)
     - 'Atomicity'. The transacion is atomic, inside it everything is happening or rollbacked, together
@@ -312,7 +312,7 @@ function sessionManagement() {
     - They are lightweigth, but have limited in number and space.
     - We can use one session cookie to store user data. This is good but has problems with multiple server instances
     - Using "Sticky Session" approach will help. It will choose the sme load balanced server by the same id.
-    = Instead of cookies, we can write the data into a key-value store, e.g. Redis. This adds complexity.
+    - Instead of cookies, we can write the data into a key-value store, e.g. Redis. This adds complexity.
     `);
 }
 function windowsVsLinux() {
@@ -350,6 +350,30 @@ function cloudDeployments() {
     `);
 }
 
+function sqlVsNoSql() {
+  logToHTML(`
+    SQL vs NoSQL:
+
+    SQL and NoSQL differencies:
+    - Schema: SQL is well-structured and requires schema, NoSQL is more flexible
+    - Scalability: SQL scales best vertically (horizontally via sharding/partitioning - hard), NoSQL scales best horizontally (master-slave architecture).
+    - Structure:
+        SQL is relational (RDBMS)
+        NoSQL can be:
+          Columnar - columns as array - best used in big data
+          Key-Value - simple stores as dictionaries
+          Document - stores semi-structured data, objects does not have to follow schema
+          Graph - direct links (relationships) between objects, allowing fast search
+    - Rules: SQL databases follow ACID transactions, NoSQL follow CAP theorem
+    - Normalization:
+        SQL uses normalization (separation on entities in tables, foreign keys and Joins)
+        NoSQL uses denormalization (replacing the ids with actual objects, duplications).
+    - When to use:
+        SQL - data should be structured or have relations, small, columnar data, cocsistency is critical
+        NoSQL - Graph or hierarchical data, scale, large data sets that change, no need for schema
+    `);
+}
+
 export default function introduction() {
   delimeterMsg('INTRODUCTION');
   logF(diagramsAndEstimations);
@@ -362,4 +386,5 @@ export default function introduction() {
   logF(sessionManagement);
   logF(windowsVsLinux);
   logF(cloudDeployments);
+  logF(sqlVsNoSql);
 }
